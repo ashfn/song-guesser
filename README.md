@@ -8,6 +8,7 @@ Now, heres the issue - spotify bans games, see [here](https://developer.spotify.
 
 This sadly prevents me from setting up a public version of this that anyone can freely use, however I will detail setup instructions if you would still like to play or test it out, it is quite fun and addictive - especially with those albums you know really well.
 
+
 # [view demo](https://www.youtube.com/watch?v=zbDU0qnwpSY)
 
 ## Techologies used
@@ -15,6 +16,8 @@ This sadly prevents me from setting up a public version of this that anyone can 
 * Vite
 * Tailwind
 * Zustand
+
+# ![Different](explanation.png)
 
 Unlike many other song guessing games I have come across, this will use a unique 30 second stretch of the song, as most other similar apps I have found make use of spotifys now faily depracated Preview URL system, which gives you an unauthenticated route for a 30 second preview sample of a song. I originially wanted to use this but upon realising it would not be suitable for what I wanted, I had to pivot and move to the authorization code with pcke flow with the Spotify Web Playback SDK which adds the browser game to your spotify account's players, loads up a song and switches to that player. This is why sometimes it takes an additional reload or two for the play button to work, sometimes thw eb playback sdk isn't happy and I haven't found many reliable ways to work with it.
 
