@@ -29,10 +29,10 @@ function calculateSearchRelevance(str, searchTerm) {
     return 0;
 }
 
-function sortBySearchRelevance(array, searchTerm, attribute) {
+function sortBySearchRelevance(array, searchTerm) {
     return array.sort((a, b) => {
-        const scoreA = calculateSearchRelevance(a[attribute], searchTerm);
-        const scoreB = calculateSearchRelevance(b[attribute], searchTerm);
+        const scoreA = calculateSearchRelevance(`${a.name} ${a.artists}`, searchTerm) + calculateSearchRelevance(`${a.name.replace(/\W/g, '')} ${a.artists.replace(/\W/g, '')}`, searchTerm);
+        const scoreB = calculateSearchRelevance(`${b.name} ${b.artists}`, searchTerm)+ calculateSearchRelevance(`${a.name.replace(/\W/g, '')} ${a.artists.replace(/\W/g, '')}`, searchTerm);;
         
         // Sort by relevance score (higher first)
         if (scoreB !== scoreA) {
@@ -40,7 +40,7 @@ function sortBySearchRelevance(array, searchTerm, attribute) {
         }
         
         // If scores are equal, sort by string length (shorter first)
-        return a[attribute].length - b[attribute].length;
+        return a.name.length - b.name.length;
     });
 }
 
@@ -48,7 +48,6 @@ const GuessPicker = ({}) => {
 
     const options = useGameData((state) => state.potentialSongs);
 
-    console.log(options)
 
     const defaultOptions = options.map((item) => {
         return {
@@ -62,7 +61,7 @@ const GuessPicker = ({}) => {
         callback
       ) => {
         console.log(`sorting by ${inputValue}`)
-        const sortedOptions = sortBySearchRelevance (options, inputValue, 'name');
+        const sortedOptions = sortBySearchRelevance (options, inputValue);
         const rData = []
         sortedOptions.forEach((item) => {
             rData.push({

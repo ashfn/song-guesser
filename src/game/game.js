@@ -118,7 +118,6 @@ const useGameData = create(
                     return;
                 }
 
-                console.log(artist)
 
                 try {
                     const tracks = await getAllTracksByArtist(artist.name, artist.id);
@@ -186,12 +185,10 @@ const useGameData = create(
 
                 try {
                     const tracks = await getAllTracksInPlaylist(playlist.id);
-                    console.log(tracks)
 
                     const workingSongs = [];
                     tracks.forEach((item) => {
                         if(item.duration_ms >= 35000){
-                            console.log(item)
                             workingSongs.push({
                                 id: item.id,
                                 name: item.name,
@@ -211,8 +208,6 @@ const useGameData = create(
                     }else {
                         setError(null)
                     }
-
-                    console.log(workingSongs)
 
                     const randomIndex = Math.floor(Math.random() * workingSongs.length);
                     const chosenSong = workingSongs[randomIndex];

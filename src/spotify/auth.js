@@ -1,6 +1,8 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
+const devMode = true
+
 const generateCodeVerifier = () => {
     const array = new Uint8Array(56)
     window.crypto.getRandomValues(array)
@@ -39,7 +41,7 @@ export const useSpotifyStore = create(
         get().setCodeVerifier(codeVerifier)
         
         const clientId = '261da8430d2c4642b3ff75aa21e07b78'
-        const redirectUri = 'https://asherfalcon.com/callback.html'
+        const redirectUri = devMode ? 'http://localhost:5173/callback.html' : 'https://tuneguessr.asherfalcon.com/callback.html'
         const scope = 'user-read-private user-read-email playlist-read-private user-follow-read user-library-read user-modify-playback-state user-read-currently-playing user-read-playback-state streaming'
         const state = 'some-random-state'
 
@@ -51,7 +53,7 @@ export const useSpotifyStore = create(
         console.log(`CODE: ${code}`)
         const codeVerifier = get().codeVerifier
         const clientId = '261da8430d2c4642b3ff75aa21e07b78'
-        const redirectUri = 'https://asherfalcon.com/callback.html'
+        const redirectUri = devMode ? 'http://localhost:5173/callback.html' : 'https://tuneguessr.asherfalcon.com/callback.html'
 
         const response = await fetch('https://accounts.spotify.com/api/token', {
           method: 'POST',

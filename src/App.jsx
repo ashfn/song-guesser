@@ -59,7 +59,6 @@ function Home() {
         }
 
         if (isMounted) {
-          console.log(data)
           setProfile(data)
 
           if(!connected && !websocketOpen){
@@ -85,8 +84,14 @@ function Home() {
     setNotPlaying()
   }, [])
 
+
+const [allowPlaying, setAllowPlaying] = useState(true)
+
   const playSnippet = async () => {
+    if(!allowPlaying) return
+    setAllowPlaying(false)
     const uri = `spotify:track:${gameSong.id}`;
+
     const duration = getStageDuration(gameStage);
     const startPosition = gameSongIndex;
     console.log(`(1) Playing snippet of ${gameSong.name} for ${duration}ms from ${startPosition}ms`);
@@ -113,9 +118,9 @@ function Home() {
       // Only try to seek if we're actively playing and position is wrong
       if (!posChanged && 
           state.loading === false && 
-          state.position !== startPosition && 
+          Math.abs(state.position - startPosition) > 1500 && 
           state.context.uri !== "-") {
-        changePosition(startPosition);
+        changePosition(startPosition);  
         posChanged = true;
         console.log("Correcting position to:", startPosition);
       }
@@ -127,11 +132,13 @@ function Home() {
           setTimeout(async () => {
             await playTrack(); // Pause the track
             setNotPlaying()
+            setAllowPlaying(true)
           }, duration + 1000);
           paused = true;
         }
       }
-      console.log('Player state changed:', state);
+      
+      console.log(state.position);
     };
     addListener('player_state_changed', onPlayerStateChanged)
     
@@ -145,6 +152,7 @@ function Home() {
   const clear = useGameData((state) => state.clear)
 
   return (
+
     <div className='bg-zinc-950'>
       <div className='p-4 min-h-screen flex flex-col text-white'>
 
@@ -246,6 +254,7 @@ function Home() {
         ) : (
           <div className='self-end items-center justify-center text-center flex flex-col mt-8'>
             <h2 className='w-[80%]'>tuneguesser is a game which allows you to test how well you know your favourite artists. pick an album, a playlist or an artist and see if you have what it takes to guess what song was played from a 5 second clip.</h2>
+            <h2 className='w-[80%] text-red-500'>Due to Spotify's extremely developer unfriendly policies, this game can never be used by people I haven't whitelisted because it will never pass review.</h2>
             <button onClick={authenticate} className="mt-8 flex flex-row bg-spotify-green rounded-md text-spotify-black px-4 py-2 space-x-2 items-center ">
               <img src={spotifyLogo} alt="Spotify Logo" width="20" />
               <span>Login with Spotify</span>

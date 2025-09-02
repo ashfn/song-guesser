@@ -60,7 +60,7 @@ const PlaylistPicker = ({}) => {
                 setAlbum(choice.value)
             })} />
             {album &&
-                <button className=' bg-spotify-green py-2 rounded-lg text-black mt-2 font-unbounded font-bold' onClick={() => {
+                <button className='md:w-[25%] w-[50%] bg-spotify-green py-2 rounded-lg text-black mt-2 font-unbounded font-bold' onClick={() => {
                     startGameWithPlaylist(album)
                 }}>Start game</button>
             }
