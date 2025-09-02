@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 
-const devMode = true
+const devMode = false
 
 const generateCodeVerifier = () => {
     const array = new Uint8Array(56)
